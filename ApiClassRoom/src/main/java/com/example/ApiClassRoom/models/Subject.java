@@ -1,11 +1,30 @@
 package com.example.ApiClassRoom.models;
 
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
+@Table(name = "Subjects")
 public class Subject {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "subject_id")
     private Integer id;
+    @Column(nullable = false, length = 100)
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "course_fk", referencedColumnName = "course_id")
+    @JsonBackReference
+    Course course;
+
+    @OneToMany(mappedBy = "subject")
+    @JsonManagedReference
+    private List<Qualification> qualification;
+
 
     public Subject() {
     }

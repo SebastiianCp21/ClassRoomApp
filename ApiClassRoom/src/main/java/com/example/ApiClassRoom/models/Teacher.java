@@ -1,11 +1,23 @@
 package com.example.ApiClassRoom.models;
 
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
+@Table(name = "Teachers")
 public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "teacher_id")
     private Integer id;
+    @Column(nullable = false, length = 100)
     private String specialization;
+
+    @OneToMany(mappedBy = "teacher")
+    @JsonManagedReference
+    private List<Course> courses;
 
     public Teacher() {
     }

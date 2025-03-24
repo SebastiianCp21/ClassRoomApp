@@ -1,25 +1,46 @@
 package com.example.ApiClassRoom.models;
 
 
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
+@Table(name = "Students")
 public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id")
     private Integer id;
+    @Column(nullable = false)
     private int grade;
+    @Column(nullable = false)
     private LocalDate dateOfBirth;
-    private String addres;
+    @Column(nullable = false)
+    private String address;
+
+    @OneToMany(mappedBy = "student")
+    @JsonManagedReference
+    private List<Enrollment> enrollment;
+
+    @OneToMany(mappedBy = "student")
+    @JsonManagedReference
+    private List<Qualification> qualification;
+
+    @OneToMany(mappedBy = "student")
+    @JsonManagedReference
+    private List<Attendance> attendance;
 
     public Student() {
     }
 
-    public Student(Integer id, int grade, LocalDate dateOfBirth, String addres) {
+    public Student(Integer id, int grade, LocalDate dateOfBirth, String address) {
         this.id = id;
         this.grade = grade;
         this.dateOfBirth = dateOfBirth;
-        this.addres = addres;
+        this.address = address;
     }
 
     public Integer getId() {
@@ -47,10 +68,10 @@ public class Student {
     }
 
     public String getAddres() {
-        return addres;
+        return address;
     }
 
     public void setAddres(String addres) {
-        this.addres = addres;
+        this.address = addres;
     }
 }

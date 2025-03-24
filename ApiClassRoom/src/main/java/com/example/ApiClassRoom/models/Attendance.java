@@ -1,15 +1,32 @@
 package com.example.ApiClassRoom.models;
 
 import com.example.ApiClassRoom.helpers.AttendanceStatus;
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "Attendances")
 public class Attendance {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "attendance_id")
     private Integer id;
+    @Column(nullable = false)
     private LocalDate date;
+    @Column(nullable = false)
     private AttendanceStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "student_fk", referencedColumnName = "student_id")
+    @JsonBackReference
+    Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "course_fk", referencedColumnName = "course_id")
+    @JsonBackReference
+    Course course;
 
     public Attendance() {
     }
