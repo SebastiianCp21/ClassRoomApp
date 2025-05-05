@@ -40,7 +40,7 @@ public class TeacherService {
              return this.repository.save(searchedTeacher.get());
          }else{
              //No estaba
-             throw new Exception("The user you are trying to modify does not exist in the database.");
+             throw new Exception("The teacher you are trying to modify does not exist in the database.");
 
          }
 
