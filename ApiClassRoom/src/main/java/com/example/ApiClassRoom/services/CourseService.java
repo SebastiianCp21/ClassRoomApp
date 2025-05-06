@@ -1,10 +1,12 @@
 package com.example.ApiClassRoom.services;
 
+import com.example.ApiClassRoom.helpers.MessagesAPI;
 import com.example.ApiClassRoom.models.Course;
 import com.example.ApiClassRoom.repositories.ICourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,6 +33,43 @@ public class CourseService {
 
             }
         }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
+    }
+    // 1. Buscar por ID
+    public Course searchCourseById(Integer id) throws Exception {
+        try {
+            Optional<Course> courseToFind = this.repository.findById(id);
+            if (courseToFind.isPresent()) {
+                return courseToFind.get();
+            } else {
+                throw new Exception(MessagesAPI.COURSE_NOT_FOUND.getText());
+            }
+        } catch (Exception error) {
+            throw new Exception(error.getMessage());
+        }
+    }
+
+    // 2. Buscar todos
+    public List<Course> searchAllCourses() throws Exception {
+        try {
+            return this.repository.findAll();
+        } catch (Exception error) {
+            throw new Exception(error.getMessage());
+        }
+    }
+
+    // 3. Eliminar
+    public boolean deleteCourse(Integer id) throws Exception {
+        try {
+            Optional<Course> courseToFind = this.repository.findById(id);
+            if (courseToFind.isPresent()) {
+                this.repository.deleteById(id);
+                return true;
+            } else {
+                throw new Exception(MessagesAPI.COURSE_NOT_FOUND.getText());
+            }
+        } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
     }
